@@ -128,7 +128,8 @@ gh repo create my-project --public --source=. --remote=origin --push
 ```bash
 git add .
 git commit -m "Update"
-git push
+git push -u origin main
+
 ```
 
 ---
