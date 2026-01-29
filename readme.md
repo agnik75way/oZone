@@ -32,17 +32,17 @@ ls ~/.ssh
 
 #### Personal
 ```bash
-ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_personal -C "personal@email.com"
+ssh-keygen -t rsa -C personal@email.com
 ```
 
 #### Office
 ```bash
-ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_office -C "office@email.com"
+ssh-keygen -t rsa -C office@email.com
 ```
 
 ---
 
-### 2.3 Add keys to SSH agent
+### 2.3 Add keys to SSH agent (optional)
 ```bash
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519_personal
@@ -53,8 +53,8 @@ ssh-add ~/.ssh/id_ed25519_office
 
 ### 2.4 Add keys to GitHub
 ```bash
-pbcopy < ~/.ssh/id_ed25519_personal.pub
-pbcopy < ~/.ssh/id_ed25519_office.pub
+pbcopy < ~/.ssh/id_rsa_personal.pub
+pbcopy < ~/.ssh/id_rsa_office.pub
 ```
 
 GitHub → Settings → SSH and GPG keys
@@ -68,17 +68,19 @@ nano ~/.ssh/config
 ```
 
 ```ini
-Host github-personal
+# Account 1
+Host github.com-office
   HostName github.com
   User git
-  IdentityFile ~/.ssh/id_ed25519_personal
-  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_office
 
-Host github-office
+
+#Account 2
+Host github.com-personal
   HostName github.com
   User git
-  IdentityFile ~/.ssh/id_ed25519_office
-  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa_personal
+
 ```
 
 ```bash
@@ -112,9 +114,11 @@ gh auth login
 ```bash
 git init
 git branch -M main
+git config user.name "username"                     
+git config user.email "<EMAIL>@gmail.com"
 git add .
 git commit -m "Initial commit"
-gh repo create my-project --source=. --push
+gh repo create my-project --public --source=. --remote=origin --push
 ```
 
 ---
